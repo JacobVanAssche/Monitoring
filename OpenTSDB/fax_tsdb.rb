@@ -6,7 +6,7 @@ require 'time'
 require 'rubygems'
 require 'json'
 
-openTSDB_host = '10.8.101.33'
+openTSDB_host = '10.8.102.190'
 openTSDB_port = '4242'
 
 @csv_file_name = ""
@@ -32,10 +32,11 @@ def build_body(metric, timestamp, value)
   }.to_json
 end
 
+# Function for debugging the HTTP requests being sent
 def check_response(response)
   case response
   when Net::HTTPSuccess then
-    puts response
+    #puts response
   when Net::HTTPRedirection then
     location = response['location']
     warn "redirected to #{location}"
@@ -45,15 +46,6 @@ def check_response(response)
   end
 end
 
-# Create metrics in openTSDB via mkmetric
-#path_to_csv = '/ruby_scripts'
-
-# Get names of all CSV files in the directory
-#csv_file_names = Dir["#{path_to_csv}/*.csv"]
-
-# Loop through all CSV files
-#csv_file_names.each do |csv|
-#puts "Started reading CSV file #{csv}"
 # Loop through each row of the CSV file
 CSV.foreach(@csv_file_name) do |row|
 	# Split the row on tab
@@ -107,8 +99,6 @@ CSV.foreach(@csv_file_name) do |row|
 	#check_response(response)
 	
 end
-
-#end
 
 puts "All done!"
 
